@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ALMA-W 每週生活狀態關懷表</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans TC', '微軟正黑體', sans-serif;
+      background: #f0f4f8;
+      color: #2d3748;
+      line-height: 1.8;
+      padding: 24px 16px 60px;
+    }
+
+    /* ===== Header ===== */
+    .header {
+      background: linear-gradient(135deg, #4a90d9, #5bbfa3);
+      color: white;
+      border-radius: 20px;
+      padding: 36px 28px;
+      text-align: center;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 20px rgba(74,144,217,0.3);
+    }
+
+    .header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .header p {
+      font-size: 0.95rem;
+      opacity: 0.92;
+      line-height: 1.7;
+    }
+
+    /* ===== Info Card ===== */
+    .info-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+
+    .info-card h2 {
+      font-size: 1rem;
+      color: #4a90d9;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .info-field {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .info-field label {
+      display: block;
+      font-size: 0.85rem;
+      color: #718096;
+      margin-bottom: 6px;
+    }
+
+    .info-field input {
+      width: 100%;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      color: #2d3748;
+      transition: border-color 0.2s;
+    }
+
+    .info-field input:focus {
+      outline: none;
+      border-color: #4a90d9;
+    }
+
+    /* ===== Warm Note ===== */
+    .warm-note {
+      background: linear-gradient(135deg, #fffbf0, #fff8e1);
+      border-left: 4px solid #f6c94e;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 28px;
+      font-size: 0.92rem;
+      color: #5a4a1a;
+      line-height: 1.9;
+    }
+
+    .warm-note strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.97rem;
+      color: #b7791f;
+    }
+
+    /* ===== Section ===== */
+    .section {
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .section-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #2d3748;
+    }
+
+    .section-subtitle {
+      font-size: 0.85rem;
+      color: #718096;
+      margin-bottom: 22px;
+      padding-left: 56px;
+    }
+
+    /* Section color themes */
+    .theme-red    .section-icon { background: #fff0f0; }
+    .theme-blue   .section-icon { background: #eff6ff; }
+    .theme-purple .section-icon { background: #f5f0ff; }
+    .theme-green  .section-icon { background: #f0fdf4; }
+    .theme-orange .section-icon { background: #fff7ed; }
+    .theme-teal   .section-icon { background: #f0fdfa; }
+
+    .theme-red    .section-title { color: #c53030; }
+    .theme-blue   .section-title { color: #2b6cb0; }
+    .theme-purple .section-title { color: #6b46c1; }
+    .theme-green  .section-title { color: #276749; }
+    .theme-orange .section-title { color: #c05621; }
+    .theme-teal   .section-title { color: #2c7a7b; }
+
+    /* ===== Question ===== */
+    .question {
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .question:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .question-text {
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 14px;
+      line-height: 1.7;
+    }
+
+    .question-hint {
+      font-size: 0.82rem;
+      color: #a0aec0;
+      font-weight: 400;
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ===== Radio Options ===== */
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1.5px solid #e2e8f0;
+      transition: all 0.2s;
+      background: #fafafa;
+      font-size: 0.93rem;
+      color: #4a5568;
+    }
+
+    .option-label:hover {
+      background: #edf2f7;
+      border-color: #a0aec0;
+    }
+
+    .option-label input[type="radio"] {
+      display: none;
+    }
+
+    .option-label .radio-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e0;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .option-label input[type="radio"]:checked + .radio-dot {
+      border-color: #4a90d9;
+      background: #4a90d9;
+      box-shadow: 0 0 0 3px rgba(74,144,217,0.2);
+    }
+
+    .option-label input[type="radio"]:checked + .radio-dot::after {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .option-label:has(input:checked) {
+      background: #ebf4ff;
+      border-color: #4a90d9;
+      color: #2b6cb0;
+      font-weight: 600;
+    }
+
+    /* Warning options */
+    .option-label.warn-option:has(input:checked) {
+      background: #fff5f5;
+      border-color: #fc8181;
+      color: #c53030;
+    }
+
+    .option-label.warn-option:has(input:checked) .radio-dot {
+      border-color: #fc8181;
+      background: #fc8181;
+    }
+
+    /* ===== Alert box inside question ===== */
+    .alert-inline {
+      margin-top: 14px;
+      background: #fff5f5;
+      border: 1.5px solid #fed7d7;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      color: #c53030;
+      display: none;
+    }
+
+    .alert-inline.visible {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .alert-inline .alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+    /* ===== Progress ===== */
+    .progress-bar-wrap {
+      background: #e2e8f0;
+      border-radius: 999px;
+      height: 8px;
+      margin: 16px 0 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4a90d9, #5bbfa3);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    .progress-text {
+      font-size: 0.8rem;
+      color: #a0aec0;
+      text-align: right;
+    }
+
+    /* ===== Submit Button ===== */
+    .submit-wrap {
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, #4a90d9, #5bbfa3);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      padding: 16px 48px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(74,144,217,0.35);
+      transition: all 0.2s;
+      letter-spacing: 1px;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(74,144,217,0.45);
+    }
+
+    .btn-submit:active { transform: translateY(0); }
+
+    /* ===== Result Panel ===== */
+    #result-panel {
+      display: none;
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 24px;
+      margin-top: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    #result-panel h2 {
+      font-size: 1.3rem;
+      color: #2d3748;
+      margin-bottom: 6px;
+    }
+
+    #result-panel .result-date {
+      font-size: 0.85rem;
+      color: #a0aec0;
+      margin-bottom: 24px;
+    }
+
+    .result-total {
+      text-align: center;
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .result-total .score-num {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .result-total .score-label {
+      font-size: 0.9rem;
+      margin-top: 6px;
+      opacity: 0.85;
+    }
+
+    .result-total .risk-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    .result-total .risk-action {
+      font-size: 0.88rem;
+      margin-top: 6px;
+      opacity: 0.85;
+    }
+
+    /* Risk colors */
+    .risk-0  { background: #f0fdf4; color: #276749; }
+    .risk-1  { background: #fffbeb; color: #92400e; }
+    .risk-2  { background: #fff7ed; color: #c05621; }
+    .risk-3  { background: #fff5f5; color: #c53030; }
+    .risk-4  { background: #fef2f2; color: #9b1c1c; }
+
+    /* Sub scores */
+    .sub-scores { display: flex; flex-direction: column; gap: 12px; }
+
+    .sub-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sub-label {
+      width: 120px;
+      font-size: 0.83rem;
+      color: #4a5568;
+      flex-shrink: 0;
+    }
+
+    .sub-bar-wrap {
+      flex: 1;
+      background: #e2e8f0;
+      border-radius: 999px;
+      height: 10px;
+      overflow: hidden;
+    }
+
+    .sub-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.6s ease;
+    }
+
+    .sub-score-text {
+      font-size: 0.83rem;
+      color: #718096;
+      width: 48px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* Alerts in result */
+    .result-alerts { margin-top: 20px; }
+
+    .result-alert-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: #fff5f5;
+      border: 1.5px solid #fed7d7;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      font-size: 0.88rem;
+      color: #c53030;
+    }
+
+    .result-alert-item .ai-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+    /* Emergency resources */
+    .emergency-box {
+      background: #f7fafc;
+      border: 1.5px solid #bee3f8;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-top: 20px;
+    }
+
+    .emergency-box h3 {
+      font-size: 0.95rem;
+      color: #2b6cb0;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .emergency-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .emergency-item {
+      background: white;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.83rem;
+      color: #2d3748;
+      border: 1px solid #e2e8f0;
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .emergency-item strong {
+      display: block;
+      color: #c53030;
+      font-size: 1rem;
+      margin-bottom: 2px;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 480px) {
+      .header h1 { font-size: 1.35rem; }
+      .section { padding: 22px 18px; }
+      .btn-submit { width: 100%; padding: 16px; }
+      .sub-label { width: 90px; font-size: 0.78rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>🌿 每週生活狀態關懷表</h1>
+  <p>這份表單是為了更了解您這一週的生活狀況<br>
+  沒有對錯答案，請放輕鬆，照實回答就好 😊</p>
+</div>
+
+<!-- 基本資料 -->
+<div class="info-card">
+  <h2>📋 基本資料</h2>
+  <div class="info-row">
+    <div class="info-field">
+      <label>姓名</label>
+      <input type="text" id="client-name" placeholder="請輸入您的姓名" />
+    </div>
+    <div class="info-field">
+      <label>填寫日期</label>
+      <input type="date" id="fill-date" />
+    </div>
+  </div>
+</div>
+
+<!-- 溫馨提示 -->
+<div class="warm-note">
+  <strong>💛 填寫前，想先跟您說幾句話</strong>
+  這份表單大約需要 8 到 10 分鐘。<br>
+  每個問題都在詢問您「過去這一週」的實際感受與狀況。<br>
+  不管填什麼都沒有關係，誠實地回答，對您的照護團隊幫助最大。<br>
+  您願意認真填寫這份表單，本身就是一件很了不起的事。
+</div>
+
+<!-- Progress -->
+<div style="background:#fff; border-radius:14px; padding:16px 20px; margin-bottom:24px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+    <span style="font-size:0.88rem; color:#4a5568; font-weight:600;">填寫進度</span>
+    <span class="progress-text" id="progress-text">0 / 30 題</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-fill"></div>
+  </div>
+</div>
+
+<form id="alma-form">
+
+<!-- ===== 第一部分 ===== -->
+<div class="section theme-red">
+  <div class="section-header">
+    <div class="section-icon">🍺</div>
+    <div class="section-title">飲酒與復原狀態</div>
+  </div>
+  <div class="section-subtitle">讓我們先了解您這一週和酒精的相處狀況</div>
+
+  <div class="question">
+    <div class="question-text">1. 過去這一週，您有幾天喝了含酒精的飲料？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q1" value="0"><span class="radio-dot"></span>0 天，這週完全沒喝 🙌</label>
+      <label class="option-label"><input type="radio" name="q1" value="1"><span class="radio-dot"></span>1 到 2 天</label>
+      <label class="option-label"><input type="radio" name="q1" value="2"><span class="radio-dot"></span>3 到 4 天</label>
+      <label class="option-label"><input type="radio" name="q1" value="3"><span class="radio-dot"></span>5 到 6 天</label>
+      <label class="option-label"><input type="radio" name="q1" value="4"><span class="radio-dot"></span>每天都有喝（7 天）</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">2. 喝酒時，一次大約喝幾杯？
+      <span class="question-hint">（1 杯 ≈ 啤酒 350ml／紅酒 150ml／白酒 45ml）沒有喝的話選第一個就好</span>
+    </div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q2" value="0"><span class="radio-dot"></span>0 杯（沒喝）</label>
+      <label class="option-label"><input type="radio" name="q2" value="1"><span class="radio-dot"></span>1 到 2 杯</label>
+      <label class="option-label"><input type="radio" name="q2" value="2"><span class="radio-dot"></span>3 到 4 杯</label>
+      <label class="option-label"><input type="radio" name="q2" value="3"><span class="radio-dot"></span>5 到 6 杯</label>
+      <label class="option-label"><input type="radio" name="q2" value="4"><span class="radio-dot"></span>7 杯以上</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">3. 這一週，您有多想喝酒？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q3" value="0"><span class="radio-dot"></span>完全不想</label>
+      <label class="option-label"><input type="radio" name="q3" value="1"><span class="radio-dot"></span>偶爾有一點想</label>
+      <label class="option-label"><input type="radio" name="q3" value="2"><span class="radio-dot"></span>有時候很想</label>
+      <label class="option-label"><input type="radio" name="q3" value="3"><span class="radio-dot"></span>經常很想喝</label>
+      <label class="option-label"><input type="radio" name="q3" value="4"><span class="radio-dot"></span>幾乎時時刻刻都想</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">4. 因為飲酒，您無法做好原本該做的事情嗎？
+      <span class="question-hint">（例如：工作、家務、照顧家人等）</span>
+    </div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q4" value="0"><span class="radio-dot"></span>完全沒有</label>
+      <label class="option-label"><input type="radio" name="q4" value="1"><span class="radio-dot"></span>很少發生</label>
+      <label class="option-label"><input type="radio" name="q4" value="2"><span class="radio-dot"></span>偶爾發生</label>
+      <label class="option-label"><input type="radio" name="q4" value="3"><span class="radio-dot"></span>經常發生</label>
+      <label class="option-label"><input type="radio" name="q4" value="4"><span class="radio-dot"></span>幾乎每天都這樣</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">5. 當您停止喝酒後，有出現身體不舒服的感覺嗎？
+      <span class="question-hint">（例如：手抖、冒汗、焦躁不安、失眠、噁心）</span>
+    </div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q5" value="0"><span class="radio-dot"></span>完全沒有</label>
+      <label class="option-label"><input type="radio" name="q5" value="1"><span class="radio-dot"></span>很輕微，還好</label>
+      <label class="option-label"><input type="radio" name="q5" value="2"><span class="radio-dot"></span>有一些</label>
+      <label class="option-label warn-option"><input type="radio" name="q5" value="3"><span class="radio-dot"></span>蠻明顯的 ⚠️</label>
+      <label class="option-label warn-option"><input type="radio" name="q5" value="4"><span class="radio-dot"></span>非常嚴重 ⚠️</label>
+    </div>
+    <div class="alert-inline" id="alert-q5">
+      <span class="alert-icon">⚠️</span>
+      <span>您的身體正在發出一些訊號，建議您盡快就醫評估，讓醫師幫您確認狀況並調整治療計畫，您不需要一個人承受這些不舒服。</span>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">6. 這一週，您對自己繼續減少或戒除飲酒有多少信心？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q6" value="0"><span class="radio-dot"></span>非常有信心 💪</label>
+      <label class="option-label"><input type="radio" name="q6" value="1"><span class="radio-dot"></span>有些信心</label>
+      <label class="option-label"><input type="radio" name="q6" value="2"><span class="radio-dot"></span>一半一半，說不定</label>
+      <label class="option-label"><input type="radio" name="q6" value="3"><span class="radio-dot"></span>不太有信心</label>
+      <label class="option-label"><input type="radio" name="q6" value="4"><span class="radio-dot"></span>現在完全沒有信心</label>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 第二部分 ===== -->
+<div class="section theme-blue">
+  <div class="section-header">
+    <div class="section-icon">😴</div>
+    <div class="section-title">睡眠品質</div>
+  </div>
+  <div class="section-subtitle">睡眠對身體的恢復非常重要，讓我們看看您這週睡得怎麼樣</div>
+
+  <div class="question">
+    <div class="question-text">7. 過去這一週，您每晚實際睡了幾個小時？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q7" value="0"><span class="radio-dot"></span>7 小時以上</label>
+      <label class="option-label"><input type="radio" name="q7" value="1"><span class="radio-dot"></span>6 到 7 小時</label>
+      <label class="option-label"><input type="radio" name="q7" value="2"><span class="radio-dot"></span>5 到 6 小時</label>
+      <label class="option-label"><input type="radio" name="q7" value="3"><span class="radio-dot"></span>4 到 5 小時</label>
+      <label class="option-label"><input type="radio" name="q7" value="4"><span class="radio-dot"></span>不到 4 小時</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">8. 躺下來之後，大概多久才能睡著？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q8" value="0"><span class="radio-dot"></span>15 分鐘以內就睡著了</label>
+      <label class="option-label"><input type="radio" name="q8" value="1"><span class="radio-dot"></span>15 到 30 分鐘</label>
+      <label class="option-label"><input type="radio" name="q8" value="2"><span class="radio-dot"></span>30 分鐘到 1 小時</label>
+      <label class="option-label"><input type="radio" name="q8" value="3"><span class="radio-dot"></span>1 到 2 小時</label>
+      <label class="option-label"><input type="radio" name="q8" value="4"><span class="radio-dot"></span>超過 2 小時都還睡不著</label>
+    </div>
+    <div class="alert-inline" id="alert-q7q8">
+      <span class="alert-icon">💤</span>
+      <span>您的睡眠狀況看起來需要多一點關注，我們可以一起討論一些改善睡眠的方法，協助您睡得更好。</span>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">9. 這一週，您半夜或清晨有醒來的情況嗎？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q9" value="0"><span class="radio-dot"></span>幾乎沒有這個問題</label>
+      <label class="option-label"><input type="radio" name="q9" value="1"><span class="radio-dot"></span>一週不到 1 次</label>
+      <label class="option-label"><input type="radio" name="q9" value="2"><span class="radio-dot"></span>一週 1 到 2 次</label>
+      <label class="option-label"><input type="radio" name="q9" value="3"><span class="radio-dot"></span>一週 3 到 4 次</label>
+      <label class="option-label"><input type="radio" name="q9" value="4"><span class="radio-dot"></span>幾乎每天都會醒來</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">10. 整體來說，您對自己這週的睡眠品質滿意嗎？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q10" value="0"><span class="radio-dot"></span>非常滿意，睡得很好</label>
+      <label class="option-label"><input type="radio" name="q10" value="1"><span class="radio-dot"></span>還算滿意</label>
+      <label class="option-label"><input type="radio" name="q10" value="2"><span class="radio-dot"></span>普通，還可以</label>
+      <label class="option-label"><input type="radio" name="q10" value="3"><span class="radio-dot"></span>不太滿意</label>
+      <label class="option-label"><input type="radio" name="q10" value="4"><span class="radio-dot"></span>非常不滿意，睡得很差</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">11. 白天會覺得很累、沒精神或想睡覺嗎？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q11" value="0"><span class="radio-dot"></span>完全不會，精神很好</label>
+      <label class="option-label"><input type="radio" name="q11" value="1"><span class="radio-dot"></span>很少</label>
+      <label class="option-label"><input type="radio" name="q11" value="2"><span class="radio-dot"></span>有時候</label>
+      <label class="option-label"><input type="radio" name="q11" value="3"><span class="radio-dot"></span>經常都很累</label>
+      <label class="option-label"><input type="radio" name="q11" value="4"><span class="radio-dot"></span>幾乎每天都沒精神</label>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 第三部分 ===== -->
+<div class="section theme-purple">
+  <div class="section-header">
+    <div class="section-icon">🧘</div>
+    <div class="section-title">壓力與情緒狀態</div>
+  </div>
+  <div class="section-subtitle">情緒和壓力是很正常的一部分，請放心如實分享您這週的感受</div>
+
+  <div class="question">
+    <div class="question-text">12. 這一週，您感到緊張不安、焦慮或煩躁的頻率？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q12" value="0"><span class="radio-dot"></span>完全沒有</label>
+      <label class="option-label"><input type="radio" name="q12" value="1"><span class="radio-dot"></span>幾天有這樣的感覺</label>
+      <label class="option-label"><input type="radio" name="q12" value="2"><span class="radio-dot"></span>超過一半以上的時間</label>
+      <label class="option-label"><input type="radio" name="q12" value="3"><span class="radio-dot"></span>幾乎每天都這樣</label>
+      <label class="option-label"><input type="radio" name="q12" value="4"><span class="radio-dot"></span>每天都很強烈</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">13. 有沒有很難停止或控制自己擔心某些事情？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q13" value="0"><span class="radio-dot"></span>完全沒有</label>
+      <label class="option-label"><input type="radio" name="q13" value="1"><span class="radio-dot"></span>幾天有這樣</label>
+      <label class="option-label"><input type="radio" name="q13" value="2"><span class="radio-dot"></span>超過一半以上的時間</label>
+      <label class="option-label"><input type="radio" name="q13" value="3"><span class="radio-dot"></span>幾乎每天都在擔心</label>
+      <label class="option-label"><input type="radio" name="q13" value="4"><span class="radio-dot"></span>每天都這樣，很難停下來</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">14. 這一週，您覺得很難放鬆下來嗎？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q14" value="0"><span class="radio-dot"></span>完全沒有，可以放鬆</label>
+      <label class="option-label"><input type="radio" name="q14" value="1"><span class="radio-dot"></span>幾天有這樣</label>
+      <label class="option-label"><input type="radio" name="q14" value="2"><span class="radio-dot"></span>超過一半以上的時間</label>
+      <label class="option-label"><input type="radio" name="q14" value="3"><span class="radio-dot"></span>幾乎每天都很難放鬆</label>
+      <label class="option-label"><input type="radio" name="q14" value="4"><span class="radio-dot"></span>每天都完全放鬆不下來</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">15. 這一週，您有感到心情低落、沮喪或覺得沒有希望嗎？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q15" value="0"><span class="radio-dot"></span>完全沒有</label>
+      <label class="option-label"><input type="radio" name="q15" value="1"><span class="radio-dot"></span>幾天有</label>
+      <label class="option-label"><input type="radio" name="q15" value="2"><span class="radio-dot"></span>超過一半以上的時間</label>
+      <label class="option-label"><input type="radio" name="q15" value="3"><span class="radio-dot"></span>幾乎每天都這樣</label>
+      <label class="option-label"><input type="radio" name="q15" value="4"><span class="radio-dot"></span>每天都很低落</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">16. 對原本喜歡的事情，現在還有興趣嗎？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q16" value="0"><span class="radio-dot"></span>完全沒有失去興趣</label>
+      <label class="option-label"><input type="radio" name="q16" value="1"><span class="radio-dot"></span>幾天感覺興趣少了一點</label>
+      <label class="option-label"><input type="radio" name="q16" value="2"><span class="radio-dot"></span>超過一半以上的時間都提不起勁</label>
+      <label class="option-label"><input type="radio" name="q16" value="3"><span class="radio-dot"></span>幾乎每天都沒有興趣</label>
+      <label class="option-label"><input type="radio" name="q16" value="4"><span class="radio-dot"></span>什麼都不想做了</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text" style="color:#c53030;">⚠️ 17. 這一週，您有沒有出現想傷害自己、或覺得消失比較好的念頭？
+      <span class="question-hint" style="color:#718096;">這個問題很重要，請放心誠實回答，我們只是想關心您是否需要多一點支持</span>
+    </div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q17" value="0"><span class="radio-dot"></span>完全沒有</label>
+      <label class="option-label warn-option"><input type="radio" name="q17" value="1"><span class="radio-dot"></span>幾天有這樣的念頭</label>
+      <label class="option-label warn-option"><input type="radio" name="q17" value="2"><span class="radio-dot"></span>超過一半以上的時間</label>
+      <label class="option-label warn-option"><input type="radio" name="q17" value="3"><span class="radio-dot"></span>幾乎每天都有</label>
+      <label class="option-label warn-option"><input type="radio" name="q17" value="4"><span class="radio-dot"></span>每天都有這樣的想法</label>
+    </div>
+    <div class="alert-inline" id="alert-q17">
+      <span class="alert-icon">💙</span>
+      <span>謝謝您的誠實，這需要很大的勇氣。您現在的感受很重要，請不要一個人扛著。建議您立即聯繫<strong>安心專線 1925</strong>（24 小時免費），讓專業的人陪伴您度過這段時間。</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 第四部分 ===== -->
+<div class="section theme-green">
+  <div class="section-header">
+    <div class="section-icon">🥦</div>
+    <div class="section-title">飲食與營養</div>
+  </div>
+  <div class="section-subtitle">吃得好，身體才有力氣恢復，來看看您這週的飲食狀況</div>
+
+  <div class="question">
+    <div class="question-text">18. 這一週，您一天大概吃幾餐正餐？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q18" value="0"><span class="radio-dot"></span>規律三餐，早中晚都有吃</label>
+      <label class="option-label"><input type="radio" name="q18" value="1"><span class="radio-dot"></span>兩餐</label>
+      <label class="option-label"><input type="radio" name="q18" value="2"><span class="radio-dot"></span>只吃一餐</label>
+      <label class="option-label"><input type="radio" name="q18" value="3"><span class="radio-dot"></span>很不規律，有時吃有時不吃</label>
+      <label class="option-label"><input type="radio" name="q18" value="4"><span class="radio-dot"></span>幾乎沒在吃正餐</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">19. 每天有吃到蔬菜和水果嗎？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q19" value="0"><span class="radio-dot"></span>每天至少 3 份，吃得不少</label>
+      <label class="option-label"><input type="radio" name="q19" value="1"><span class="radio-dot"></span>每天 1 到 2 份</label>
+      <label class="option-label"><input type="radio" name="q19" value="2"><span class="radio-dot"></span>偶爾吃</label>
+      <label class="option-label"><input type="radio" name="q19" value="3"><span class="radio-dot"></span>很少吃</label>
+      <label class="option-label"><input type="radio" name="q19" value="4"><span class="radio-dot"></span>幾乎完全不吃</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">20. 這一週，您常吃油炸、加工食品或含糖飲料嗎？
+      <span class="question-hint">（例如：炸雞、泡麵、珍珠奶茶、零食）</span>
+    </div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q20" value="0"><span class="radio-dot"></span>幾乎不吃</label>
+      <label class="option-label"><input type="radio" name="q20" value="1"><span class="radio-dot"></span>偶爾吃</label>
+      <label class="option-label"><input type="radio" name="q20" value="2"><span class="radio-dot"></span>每週 3 到 4 次</label>
+      <label class="option-label"><input type="radio" name="q20" value="3"><span class="radio-dot"></span>幾乎每天都吃</label>
+      <label class="option-label"><input type="radio" name="q20" value="4"><span class="radio-dot"></span>每天都吃很多</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">21. 每天喝水的量夠嗎？
+      <span class="question-hint">（建議每天至少 6 到 8 杯，約 1500ml）</span>
+    </div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q21" value="0"><span class="radio-dot"></span>足夠，8 杯以上 💧</label>
+      <label class="option-label"><input type="radio" name="q21" value="1"><span class="radio-dot"></span>差不多，6 到 8 杯</label>
+      <label class="option-label"><input type="radio" name="q21" value="2"><span class="radio-dot"></span>有點少，4 到 6 杯</label>
+      <label class="option-label"><input type="radio" name="q21" value="3"><span class="radio-dot"></span>喝很少，2 到 4 杯</label>
+      <label class="option-label"><input type="radio" name="q21" value="4"><span class="radio-dot"></span>幾乎不喝水</label>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 第五部分 ===== -->
+<div class="section theme-orange">
+  <div class="section-header">
+    <div class="section-icon">🏃</div>
+    <div class="section-title">身體活動與運動</div>
+  </div>
+  <div class="section-subtitle">活動身體是幫助大腦恢復的好方法，不管做多少都算數喔</div>
+
+  <div class="question">
+    <div class="question-text">22. 這一週，您有幾天做了至少 30 分鐘的運動或身體活動？
+      <span class="question-hint">（快走、慢跑、騎腳踏車、游泳、打球，甚至做家事都算唷）</span>
+    </div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q22" value="0"><span class="radio-dot"></span>5 天以上，動得很規律 🌟</label>
+      <label class="option-label"><input type="radio" name="q22" value="1"><span class="radio-dot"></span>3 到 4 天</label>
+      <label class="option-label"><input type="radio" name="q22" value="2"><span class="radio-dot"></span>1 到 2 天</label>
+      <label class="option-label"><input type="radio" name="q22" value="3"><span class="radio-dot"></span>不到 1 天，很少動</label>
+      <label class="option-label"><input type="radio" name="q22" value="4"><span class="radio-dot"></span>完全沒有</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">23. 運動之後，您的心情和精神狀態有變好嗎？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q23" value="0"><span class="radio-dot"></span>明顯變好，感覺很不錯</label>
+      <label class="option-label"><input type="radio" name="q23" value="1"><span class="radio-dot"></span>有一些改善</label>
+      <label class="option-label"><input type="radio" name="q23" value="2"><span class="radio-dot"></span>沒什麼太大差別</label>
+      <label class="option-label"><input type="radio" name="q23" value="3"><span class="radio-dot"></span>不確定，因為很少運動</label>
+      <label class="option-label"><input type="radio" name="q23" value="4"><span class="radio-dot"></span>這週沒有運動</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">24. 整體來說，您這週的體力和活力如何？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q24" value="0"><span class="radio-dot"></span>很好，充滿活力 ⚡</label>
+      <label class="option-label"><input type="radio" name="q24" value="1"><span class="radio-dot"></span>還不錯</label>
+      <label class="option-label"><input type="radio" name="q24" value="2"><span class="radio-dot"></span>普通，一般般</label>
+      <label class="option-label"><input type="radio" name="q24" value="3"><span class="radio-dot"></span>常常覺得累</label>
+      <label class="option-label"><input type="radio" name="q24" value="4"><span class="radio-dot"></span>非常疲倦，完全沒力</label>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 第六部分 ===== -->
+<div class="section theme-teal">
+  <div class="section-header">
+    <div class="section-icon">🤝</div>
+    <div class="section-title">人際支持與社交連結</div>
+  </div>
+  <div class="section-subtitle">有人陪伴在身邊，復原的路走起來會輕鬆很多</div>
+
+  <div class="question">
+    <div class="question-text">25. 當您遇到困難時，有可以信任、願意幫助您的人嗎？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q25" value="0"><span class="radio-dot"></span>有很多人可以支持我</label>
+      <label class="option-label"><input type="radio" name="q25" value="1"><span class="radio-dot"></span>有幾個人</label>
+      <label class="option-label"><input type="radio" name="q25" value="2"><span class="radio-dot"></span>有一兩個人</label>
+      <label class="option-label"><input type="radio" name="q25" value="3"><span class="radio-dot"></span>不太確定</label>
+      <label class="option-label"><input type="radio" name="q25" value="4"><span class="radio-dot"></span>好像沒有這樣的人</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">26. 這一週，您有參加團體聚會或相關活動嗎？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q26" value="0"><span class="radio-dot"></span>有，每週都固定參加</label>
+      <label class="option-label"><input type="radio" name="q26" value="1"><span class="radio-dot"></span>有，這週參加了 1 次</label>
+      <label class="option-label"><input type="radio" name="q26" value="2"><span class="radio-dot"></span>沒有，但有打算要去</label>
+      <label class="option-label"><input type="radio" name="q26" value="3"><span class="radio-dot"></span>這週沒有參加</label>
+      <label class="option-label"><input type="radio" name="q26" value="4"><span class="radio-dot"></span>不知道有這些活動</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">27. 您與家人或朋友的關係這週感覺如何？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q27" value="0"><span class="radio-dot"></span>很好，互相支持 ❤️</label>
+      <label class="option-label"><input type="radio" name="q27" value="1"><span class="radio-dot"></span>還不錯</label>
+      <label class="option-label"><input type="radio" name="q27" value="2"><span class="radio-dot"></span>普通</label>
+      <label class="option-label"><input type="radio" name="q27" value="3"><span class="radio-dot"></span>有些緊張或衝突</label>
+      <label class="option-label"><input type="radio" name="q27" value="4"><span class="radio-dot"></span>關係很差，或已失去聯絡</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">28. 這一週，您有多常感到孤單或寂寞？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q28" value="0"><span class="radio-dot"></span>完全沒有</label>
+      <label class="option-label"><input type="radio" name="q28" value="1"><span class="radio-dot"></span>很少</label>
+      <label class="option-label"><input type="radio" name="q28" value="2"><span class="radio-dot"></span>有時候</label>
+      <label class="option-label"><input type="radio" name="q28" value="3"><span class="radio-dot"></span>經常感到孤單</label>
+      <label class="option-label"><input type="radio" name="q28" value="4"><span class="radio-dot"></span>幾乎時時刻刻都很孤單</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">29. 這一週，您有和個案管理師或醫療團隊保持聯繫嗎？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q29" value="0"><span class="radio-dot"></span>有，定期聯絡</label>
+      <label class="option-label"><input type="radio" name="q29" value="1"><span class="radio-dot"></span>有，偶爾聯絡</label>
+      <label class="option-label"><input type="radio" name="q29" value="2"><span class="radio-dot"></span>很少聯絡</label>
+      <label class="option-label"><input type="radio" name="q29" value="3"><span class="radio-dot"></span>幾乎沒有聯絡</label>
+      <label class="option-label"><input type="radio" name="q29" value="4"><span class="radio-dot"></span>完全沒有聯絡</label>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-text">30. 最後一題，整體來說，您覺得自己的生活有意義、有價值嗎？</div>
+    <div class="options">
+      <label class="option-label"><input type="radio" name="q30" value="0"><span class="radio-dot"></span>非常有意義 🌟</label>
+      <label class="option-label"><input type="radio" name="q30" value="1"><span class="radio-dot"></span>有意義</label>
+      <label class="option-label"><input type="radio" name="q30" value="2"><span class="radio-dot"></span>普通，說不上來</label>
+      <label class="option-label"><input type="radio" name="q30" value="3"><span class="radio-dot"></span>不太有意義</label>
+      <label class="option-label"><input type="radio" name="q30" value="4"><span class="radio-dot"></span>感覺沒有意義</label>
+    </div>
+  </div>
+</div>
+
+<!-- Submit -->
+<div class="submit-wrap">
+  <button type="button" class="btn-submit" onclick="submitForm()">📊 查看本週結果</button>
+</div>
+
+</form>
+
+<!-- Result Panel -->
+<div id="result-panel">
+  <h2>📋 本週關懷結果</h2>
+  <div class="result-date" id="result-date"></div>
+
+  <div class="result-total" id="result-total-box">
+    <div class="score-num" id="result-score">—</div>
+    <div class="score-label">總分 / 120 分</div>
+    <div class="risk-title" id="risk-title">—</div>
+    <div class="risk-action" id="risk-action">—</div>
+  </div>
+
+  <div style="margin-bottom:8px; font-size:0.9rem; font-weight:600; color:#4a5568;">各面向得分</div>
+  <div class="sub-scores" id="sub-scores-wrap"></div>
+
+  <div class="result-alerts" id="result-alerts"></div>
+
+  <div class="emergency-box">
+    <h3>📞 需要幫助時，請聯絡</h3>
+    <div class="emergency-grid">
+      <div class="emergency-item"><strong>119</strong>緊急醫療救援</div>
+      <div class="emergency-item"><strong>1925</strong>安心專線（24小時）</div>
+      <div class="emergency-item"><strong>1995</strong>生命線</div>
+      <div class="emergency-item"><strong>1980</strong>張老師專線</div>
+      <div class="emergency-item"><strong>113</strong>家暴保護專線</div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:24px;">
+    <button type="button" onclick="window.print()" style="background:#f7fafc; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 28px; font-size:0.9rem; color:#4a5568; cursor:pointer;">🖨️ 列印 / 儲存結果</button>
+  </div>
+</div>
+
+<script>
+  // Auto-fill today's date
+  document.getElementById('fill-date').valueAsDate = new Date();
+
+  // Progress tracking
+  const totalQ = 30;
+  function updateProgress() {
+    let answered = 0;
+    for (let i = 1; i <= totalQ; i++) {
+      if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+    }
+    const pct = Math.round((answered / totalQ) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = `${answered} / ${totalQ} 題`;
+  }
+
+  document.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.addEventListener('change', () => {
+      updateProgress();
+      checkAlerts();
+    });
+  });
+
+  // Inline alerts
+  function checkAlerts() {
+    // Q5 alert
+    const q5 = document.querySelector('input[name="q5"]:checked');
+    const alertQ5 = document.getElementById('alert-q5');
+    if (q5 && parseInt(q5.value) >= 3) {
+      alertQ5.classList.add('visible');
+    } else {
+      alertQ5.classList.remove('visible');
+    }
+
+    // Q7+Q8 sleep alert
+    const q7 = document.querySelector('input[name="q7"]:checked');
+    const q8 = document.querySelector('input[name="q8"]:checked');
+    const alertSleep = document.getElementById('alert-q7q8');
+    if (q7 && q8 && parseInt(q7.value) >= 3 && parseInt(q8.value) >= 3) {
+      alertSleep.classList.add('visible');
+    } else {
+      alertSleep.classList.remove('visible');
+    }
+
+    // Q17 alert
+    const q17 = document.querySelector('input[name="q17"]:checked');
+    const alertQ17 = document.getElementById('alert-q17');
+    if (q17 && parseInt(q17.value) >= 1) {
+      alertQ17.classList.add('visible');
+    } else {
+      alertQ17.classList.remove('visible');
+    }
+  }
+
+  // Submit
+  function submitForm() {
+    // Check all answered
+    let missing = [];
+    for (let i = 1; i <= totalQ; i++) {
+      if (!document.querySelector(`input[name="q${i}"]:checked`)) missing.push(i);
+    }
+    if (missing.length > 0) {
+      alert(`還有 ${missing.length} 題尚未作答（第 ${missing.join('、')} 題），請完成後再送出唷 😊`);
+      const firstMissing = document.querySelector(`input[name="q${missing[0]}"]`);
+      if (firstMissing) firstMissing.closest('.question').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Calculate scores
+    const parts = [
+      { label: '飲酒與復原', questions: [1,2,3,4,5,6], max: 24, color: '#fc8181' },
+      { label: '睡眠品質',   questions: [7,8,9,10,11],  max: 20, color: '#63b3ed' },
+      { label: '壓力與情緒', questions: [12,13,14,15,16,17], max: 24, color: '#b794f4' },
+      { label: '飲食與營養', questions: [18,19,20,21], max: 16, color: '#68d391' },
+      { label: '身體活動',   questions: [22,23,24],    max: 12, color: '#f6ad55' },
+      { label: '社交連結',   questions: [25,26,27,28,29,30], max: 24, color: '#4fd1c5' },
+    ];
+
+    let totalScore = 0;
+    const partScores = parts.map(p => {
+      let s = 0;
+      p.questions.forEach(qn => {
+        const el = document.querySelector(`input[name="q${qn}"]:checked`);
+        if (el) s += parseInt(el.value);
+      });
+      totalScore += s;
+      return { ...p, score: s };
+    });
+
+    // Risk level
+    const risks = [
+      { max: 24,  cls: 'risk-0', title: '🌱 穩定恢復期', action: '繼續保持，每週例行追蹤，您做得很好！' },
+      { max: 48,  cls: 'risk-1', title: '🌤 輕度關注',   action: '有些地方需要多一點留意，我們會主動關懷您。' },
+      { max: 72,  cls: 'risk-2', title: '☁️ 中度風險',   action: '建議安排電話或視訊訪談，一起調整支持計畫。' },
+      { max: 96,  cls: 'risk-3', title: '⚠️ 高度風險',   action: '請優先聯繫照護團隊，考慮提前安排門診。' },
+      { max: 120, cls: 'risk-4', title: '🚨 緊急狀態',   action: '請立即聯繫照護團隊，啟動危機介入流程。' },
+    ];
+
+    let riskLevel = risks[risks.length - 1];
+    for (const r of risks) {
+      if (totalScore <= r.max) { riskLevel = r; break; }
+    }
+
+    // Render result
+    const totalBox = document.getElementById('result-total-box');
+    totalBox.className = 'result-total ' + riskLevel.cls;
+    document.getElementById('result-score').textContent = totalScore;
+    document.getElementById('risk-title').textContent = riskLevel.title;
+    document.getElementById('risk-action').textContent = riskLevel.action;
+
+    // Sub scores
+    const subWrap = document.getElementById('sub-scores-wrap');
+    subWrap.innerHTML = '';
+    partScores.forEach(p => {
+      const pct = Math.round((p.score / p.max) * 100);
+      subWrap.innerHTML += `
+        <div class="sub-row">
+          <div class="sub-label">${p.label}</div>
+          <div class="sub-bar-wrap">
+            <div class="sub-bar-fill" style="width:${pct}%; background:${p.color};"></div>
+          </div>
+          <div class="sub-score-text">${p.score} / ${p.max}</div>
+        </div>`;
+    });
+
+    // Special alerts
+    const alertsWrap = document.getElementById('result-alerts');
+    alertsWrap.innerHTML = '';
+    const q5v  = parseInt(document.querySelector('input[name="q5"]:checked').value);
+    const q17v = parseInt(document.querySelector('input[name="q17"]:checked').value);
+    const q1v  = parseInt(document.querySelector('input[name="q1"]:checked').value);
+    const q2v  = parseInt(document.querySelector('input[name="q2"]:checked').value);
+    const q3v  = parseInt(document.querySelector('input[name="q3"]:checked').value);
+    const q15v = parseInt(document.querySelector('input[name="q15"]:checked').value);
+    const q16v = parseInt(document.querySelector('input[name="q16"]:checked').value);
+    const q28v = parseInt(document.querySelector('input[name="q28"]:checked').value);
+    const q7v  = parseInt(document.querySelector('input[name="q7"]:checked').value);
+    const q8v  = parseInt(document.querySelector('input[name="q8"]:checked').value);
+
+    if (q17v >= 1) {
+      alertsWrap.innerHTML += `<div class="result-alert-item"><span class="ai-icon">💙</span><div><strong>自傷念頭安全警示</strong><br>請立即聯繫個案進行安全評估，啟動自殺防治流程。撥打安心專線 <strong>1925</strong>。</div></div>`;
+    }
+    if (q5v >= 3) {
+      alertsWrap.innerHTML += `<div class="result-alert-item"><span class="ai-icon">⚠️</span><div><strong>戒斷症狀醫療警示</strong><br>個案出現明顯戒斷症狀，建議盡快就醫評估，與醫師討論藥物調整。</div></div>`;
+    }
+    if ((q1v + q2v + q3v >= 8) && (q15v + q16v >= 6) && (q28v >= 3)) {
+      alertsWrap.innerHTML += `<div class="result-alert-item"><span class="ai-icon">🔴</span><div><strong>複合風險提醒</strong><br>飲酒、憂鬱與孤立感同時偏高，視為高複發風險，建議增加接觸頻率，整合多專業介入。</div></div>`;
+    }
+    if (q7v >= 3 && q8v >= 3) {
+      alertsWrap.innerHTML += `<div class="result-alert-item"><span class="ai-icon">💤</span><div><strong>睡眠問題提醒</strong><br>睡眠時數不足且入睡困難，建議提供睡眠衛生教育並評估是否轉介 CBT-I。</div></div>`;
+    }
+
+    // Date
+    const name = document.getElementById('client-name').value || '個案';
+    const date = document.getElementById('fill-date').value;
+    document.getElementById('result-date').textContent = `${name}　填寫日期：${date}　總分：${totalScore} / 120`;
+
+    // Show result
+    const panel = document.getElementById('result-panel');
+    panel.style.display = 'block';
+    panel.scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
