@@ -1159,6 +1159,27 @@
     const name = document.getElementById('client-name').value || '個案';
     const date = document.getElementById('fill-date').value;
     document.getElementById('result-date').textContent = `${name}　填寫日期：${date}　總分：${totalScore} / 120`;
+// 送出資料到 Google Sheet
+const scriptURL = 'https://script.google.com/macros/s/AKfycbwfK98FHHK8VBP-LGHByMv4NaHEA3fKNt3v0jfHPPCrNqvwqDF2eXe2iAuSPoOtPY2O/exec';
+
+const formData = new FormData();
+formData.append('name', document.getElementById('client-name').value || '匿名');
+formData.append('date', document.getElementById('fill-date').value);
+formData.append('part1', partScores[0].score);
+formData.append('part2', partScores[1].score);
+formData.append('part3', partScores[2].score);
+formData.append('part4', partScores[3].score);
+formData.append('part5', partScores[4].score);
+formData.append('part6', partScores[5].score);
+formData.append('total', totalScore);
+formData.append('risk', riskLevel.title);
+
+fetch(scriptURL, {
+  method: 'POST',
+  body: formData
+})
+.then(() => console.log('資料已送出'))
+.catch(err => console.error('送出失敗', err));
 
     // Show result
     const panel = document.getElementById('result-panel');
