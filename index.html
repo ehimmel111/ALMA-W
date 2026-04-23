@@ -1029,7 +1029,6 @@
 
   // Inline alerts
   function checkAlerts() {
-    // Q5 alert
     const q5 = document.querySelector('input[name="q5"]:checked');
     const alertQ5 = document.getElementById('alert-q5');
     if (q5 && parseInt(q5.value) >= 3) {
@@ -1038,7 +1037,6 @@
       alertQ5.classList.remove('visible');
     }
 
-    // Q7+Q8 sleep alert
     const q7 = document.querySelector('input[name="q7"]:checked');
     const q8 = document.querySelector('input[name="q8"]:checked');
     const alertSleep = document.getElementById('alert-q7q8');
@@ -1048,7 +1046,6 @@
       alertSleep.classList.remove('visible');
     }
 
-    // Q17 alert
     const q17 = document.querySelector('input[name="q17"]:checked');
     const alertQ17 = document.getElementById('alert-q17');
     if (q17 && parseInt(q17.value) >= 1) {
@@ -1058,36 +1055,58 @@
     }
   }
 
-  // 傳送到 Google Sheet
+  // 傳送到 Google Sheet（改為 hidden form 版本）
   function sendToGoogleSheet({ name, date, totalScore, risk, partScores, q5, q17 }) {
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwfq0jF5MPgAR7zfo-JxZ5wUl3sMcCBU0YufclkoC0kIZ-E4VPMHmZa2Fg-IPWD8lCB/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzY8oKqloYGSaK9NPZL6VqRgCpmremYx7EmJ0aPZQjlZT9uXtvl9OwIKM6qbeLnf3_E/exec';
 
-    const formData = new FormData();
-    formData.append('name', name || '匿名');
-    formData.append('date', date || '');
-    formData.append('part1', partScores[0]?.score ?? '');
-    formData.append('part2', partScores[1]?.score ?? '');
-    formData.append('part3', partScores[2]?.score ?? '');
-    formData.append('part4', partScores[3]?.score ?? '');
-    formData.append('part5', partScores[4]?.score ?? '');
-    formData.append('part6', partScores[5]?.score ?? '');
-    formData.append('total', totalScore ?? '');
-    formData.append('risk', risk || '');
-    formData.append('q5', q5 ?? '');
-    formData.append('q17', q17 ?? '');
+    let iframe = document.getElementById('hidden_iframe');
+    if (!iframe) {
+      iframe = document.createElement('iframe');
+      iframe.name = 'hidden_iframe';
+      iframe.id = 'hidden_iframe';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+    }
 
-    fetch(scriptURL, {
-      method: 'POST',
-      body: formData,
-      mode: 'no-cors'
-    })
-    .then(() => console.log('資料已送出到 Google Sheet'))
-    .catch(err => console.error('送出失敗', err));
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = scriptURL;
+    form.target = 'hidden_iframe';
+    form.style.display = 'none';
+
+    const fields = {
+      name: name || '匿名',
+      date: date || '',
+      part1: partScores[0]?.score ?? '',
+      part2: partScores[1]?.score ?? '',
+      part3: partScores[2]?.score ?? '',
+      part4: partScores[3]?.score ?? '',
+      part5: partScores[4]?.score ?? '',
+      part6: partScores[5]?.score ?? '',
+      total: totalScore ?? '',
+      risk: risk || '',
+      q5: q5 ?? '',
+      q17: q17 ?? ''
+    };
+
+    Object.keys(fields).forEach(key => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = fields[key];
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+
+    setTimeout(() => {
+      if (form.parentNode) form.parentNode.removeChild(form);
+    }, 1000);
   }
 
   // Submit
   function submitForm() {
-    // Check all answered
     let missing = [];
     for (let i = 1; i <= totalQ; i++) {
       if (!document.querySelector(`input[name="q${i}"]:checked`)) missing.push(i);
@@ -1102,7 +1121,6 @@
       return;
     }
 
-    // Calculate scores
     const parts = [
       { label: '飲酒與復原', questions: [1,2,3,4,5,6], max: 24, color: '#fc8181' },
       { label: '睡眠品質',   questions: [7,8,9,10,11], max: 20, color: '#63b3ed' },
@@ -1123,7 +1141,6 @@
       return { ...p, score: s };
     });
 
-    // Risk level
     const risks = [
       { max: 24,  cls: 'risk-0', title: '🌱 穩定恢復期', action: '繼續保持，每週例行追蹤，您做得很好！' },
       { max: 48,  cls: 'risk-1', title: '🌤 輕度關注', action: '有些地方需要多一點留意，我們會主動關懷您。' },
@@ -1140,14 +1157,12 @@
       }
     }
 
-    // Render result
     const totalBox = document.getElementById('result-total-box');
     totalBox.className = 'result-total ' + riskLevel.cls;
     document.getElementById('result-score').textContent = totalScore;
     document.getElementById('risk-title').textContent = riskLevel.title;
     document.getElementById('risk-action').textContent = riskLevel.action;
 
-    // Sub scores
     const subWrap = document.getElementById('sub-scores-wrap');
     subWrap.innerHTML = '';
     partScores.forEach(p => {
@@ -1162,7 +1177,6 @@
         </div>`;
     });
 
-    // Special alerts
     const alertsWrap = document.getElementById('result-alerts');
     alertsWrap.innerHTML = '';
 
@@ -1193,12 +1207,10 @@
       alertsWrap.innerHTML += `<div class="result-alert-item"><span class="ai-icon">💤</span><div><strong>睡眠問題提醒</strong><br>睡眠時數不足且入睡困難，建議提供睡眠衛生教育並評估是否轉介 CBT-I。</div></div>`;
     }
 
-    // Date
     const name = document.getElementById('client-name').value || '個案';
     const date = document.getElementById('fill-date').value;
     document.getElementById('result-date').textContent = `${name}　填寫日期：${date}　總分：${totalScore} / 120`;
 
-    // 送出資料到 Google Sheet（含第5題、第17題）
     sendToGoogleSheet({
       name,
       date,
@@ -1209,7 +1221,6 @@
       q17: q17v
     });
 
-    // Show result
     const panel = document.getElementById('result-panel');
     panel.style.display = 'block';
     panel.scrollIntoView({ behavior: 'smooth' });
@@ -1217,4 +1228,3 @@
 </script>
 </body>
 </html>
-
